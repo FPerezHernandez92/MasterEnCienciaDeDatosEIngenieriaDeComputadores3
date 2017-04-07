@@ -1,0 +1,184 @@
+---
+title: "Practica1LBP"
+author: "Francisco Pérez Hernández"
+date: "29/3/2017"
+output: 
+  pdf_document: 
+    number_sections: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+setwd("~/Dropbox/zMaster/zRStudio/Master-en-Ciencia-De-Datos-e-Ingeniería-de-Computadores-3/4 Extraccion de caracteristicas en imagenes")
+```
+
+# Trabajo en Matlab
+Fichero "Practica1LBP.m"
+
+## Implementación de un descriptor
+En esta primera función leeremos una imagen y aplicaremos la función LBPu con la que se transforma la imagen recibida, añadiéndole un marco de 0 para que mi implementación sea más sencilla. De esta forma recorro cada pixel de la imagen y calculo el código LBP uniforme. Este código lo calculo sacando si los elementos de al rededor son menores ó mayor-igual que el elemento examinado sacando el número en binario con el que calculamos cuantos cambios, o transacciones, hay en ese número y será cuando le demos valor a ese pixel. 
+Una vez realizado esto, muestro la imagen LBPu y el histograma que se proporciona.
+
+## Cálculo de características
+En esta función recorremos los 105 bloques de la imagen. En cada bloque calcularemos el histograma del bloque, lo normalizaremos con la raíz cuadrada de la sumatoria de los elementos al cuadrado. Por lo tanto, con la concatenación de los 105 histogramas, como cada uno tiene 59 elementos, tendremos un vector con 6195 características por cada imagen. 
+
+## Cálculo para todas las imágenes
+Lo que realizaremos en esta parte, será leer todas las imágenes proporcionadas y crearemos un csv para cada conjunto, en el que cada imagen tendrá un vector de 6195 características. Este csv, lo pasaremos a continuación a R para realizar un clasificador.
+
+# Trabajo en RStudio
+Por motivos de facilidad y por acelerar el trabajo, ya que era mi primer contacto con Matlab, he decidido realizar el clasificador en R. Fichero "Practica1LBP.Rmd"
+
+## Lectura de las características
+Primero leo las características de los csv creados con Matlab
+```{r lectura}
+train.pedestrian <- read.csv("matriz_pedestrians_train.csv", header = F)
+train.background <- read.csv("matriz_background_train.csv", header = F)
+test.pedestrian <- read.csv("matriz_pedestrians_test.csv", header = F)
+test.background <- read.csv("matriz_background_test.csv", header = F)
+```
+
+## Añadido de etiquetas
+Creamos los vectores de etiquetas para cada dataset
+```{r creacion_etiquetas_train}
+pedestrians_train_eti <- as.data.frame(rep(1,1916))
+colnames(pedestrians_train_eti) <- c("Y")
+backgorund_train_eti <- as.data.frame(rep(0,2390))
+colnames(backgorund_train_eti) <- c("Y")
+```
+
+Añadimos las etiquetas a los datasets de train
+```{r añadir_etiqueta_train}
+train.pedestrian.eti <- cbind(train.pedestrian,pedestrians_train_eti)
+train.background.eti <- cbind(train.background,backgorund_train_eti)
+train <- rbind(train.pedestrian.eti,train.background.eti)
+```
+
+Hacemos lo mismo para el test
+```{r creacion_adiccion_etiquetas_test}
+test <- rbind(test.pedestrian,test.background)
+aux <- as.data.frame(rep(1,500))
+colnames(aux) <- c("Y")
+aux2 <- (as.data.frame(rep(0,600)))
+colnames(aux2) <- c("Y")
+test.aux2 <- rbind(aux, aux2)
+test <- rbind(test.pedestrian,test.background)
+test <- cbind(test,test.aux2)
+```
+
+Pasamos la clase a factor para el correcto funcionamiento del clasificador
+```{r paso_a_factor}
+train$Y <- as.factor(train$Y)
+test$Y <- as.factor(test$Y)
+```
+
+## Elección del clasificador
+Como clasificador para esta práctica, se ha decidido usar el clasificador Random Forest, ya que suele tener buenos resultados para conjuntos de datos similares. Por lo tanto voy a realizar varias pruebas con distintos valores de número de árboles para ver que tal funciona nuestro clasificador.
+
+### 10 árboles
+Vamos a probar el clasificador random forest primero con 10 árboles
+```{r ejec_randomForest_10}
+rm(list=setdiff(ls(), c("train","test")))
+set.seed(1234)
+modelo.rf <- randomForest::randomForest(Y~.,data = train, ntree=10)
+```
+```{r visualizacion_randomForest_10}
+print(modelo.rf)
+plot(modelo.rf)
+```
+```{r predic_randomForest_10}
+prediccion <- predict(modelo.rf, newdata = test)
+tabla <- table(prediccion, test$Y)
+tabla
+accuracy <- sum(prediccion == test$Y)/nrow(test)
+accuracy
+```
+
+### 50 árboles
+Vamos a probar el clasificador random forest con 50 árboles
+```{r ejec_randomForest_50}
+rm(list=setdiff(ls(), c("train","test","accuracy")))
+set.seed(1234)
+modelo.rf <- randomForest::randomForest(Y~.,data = train, ntree=50)
+```
+```{r visualizacion_randomForest_50}
+print(modelo.rf)
+plot(modelo.rf)
+```
+```{r predic_randomForest_50}
+prediccion <- predict(modelo.rf, newdata = test)
+tabla <- table(prediccion, test$Y)
+tabla
+accuracy_act <- sum(prediccion == test$Y)/nrow(test)
+accuracy_act
+accuracy <- c(accuracy,accuracy_act)
+```
+
+### 100 árboles
+Vamos a probar el clasificador random forest con 100 árboles
+```{r ejec_randomForest_100}
+rm(list=setdiff(ls(), c("train","test","accuracy")))
+set.seed(1234)
+modelo.rf <- randomForest::randomForest(Y~.,data = train, ntree=100)
+```
+```{r visualizacion_randomForest_100}
+print(modelo.rf)
+plot(modelo.rf)
+```
+```{r predic_randomForest_100}
+prediccion <- predict(modelo.rf, newdata = test)
+tabla <- table(prediccion, test$Y)
+tabla
+accuracy_act <- sum(prediccion == test$Y)/nrow(test)
+accuracy_act
+accuracy <- c(accuracy,accuracy_act)
+```
+
+### 200 árboles
+Vamos a probar el clasificador random forest con 200 árboles
+```{r ejec_randomForest_200}
+rm(list=setdiff(ls(), c("train","test","accuracy")))
+set.seed(1234)
+modelo.rf <- randomForest::randomForest(Y~.,data = train, ntree=200)
+```
+```{r visualizacion_randomForest_200}
+print(modelo.rf)
+plot(modelo.rf)
+```
+```{r predic_randomForest_200}
+prediccion <- predict(modelo.rf, newdata = test)
+tabla <- table(prediccion, test$Y)
+tabla
+accuracy_act <- sum(prediccion == test$Y)/nrow(test)
+accuracy_act
+accuracy <- c(accuracy,accuracy_act)
+```
+
+### 500 árboles
+Vamos a probar el clasificador random forest con 500 árboles
+```{r ejec_randomForest_500}
+rm(list=setdiff(ls(), c("train","test","accuracy")))
+set.seed(1234)
+modelo.rf <- randomForest::randomForest(Y~.,data = train, ntree=500)
+```
+```{r visualizacion_randomForest_500}
+print(modelo.rf)
+plot(modelo.rf)
+```
+```{r predic_randomForest_500}
+prediccion <- predict(modelo.rf, newdata = test)
+tabla <- table(prediccion, test$Y)
+tabla
+accuracy_act <- sum(prediccion == test$Y)/nrow(test)
+accuracy_act
+accuracy <- c(accuracy,accuracy_act)
+```
+
+# Conclusiones
+Veamos los accuracy de cada clasificador
+```{r conclusiones}
+names(accuracy) = c("10","50","100","200","500")
+accuracy
+```
+
+Vemos el número de árboles y su accuracy proporcionado. Como hemos podido ver en las gráficas obtenidas y en este vector, el número de árboles que mejor nos ha funcionado ha sido el de 500 árboles. Pero viendo el comportamiento convergente se ha decidido no hacer más pruebas. Por lo tanto, aceptamos este resultado como el de un muy buen clasificador ya que tiene una tasa de error muy baja. 
+Por lo tanto, hemos montado, a partir de un conjunto de train de background y pedestrians, un clasificador con el que podemos predecir si una nueva imagen es de una de las dos clases. 
