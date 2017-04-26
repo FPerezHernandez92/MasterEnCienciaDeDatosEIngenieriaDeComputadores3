@@ -1,0 +1,89 @@
+/opt/spark-1.6.2/bin/spark-submit --master spark://hadoop-master:7077 --class org.apache.spark.examples.SparkPi ~/PiTest2-0.0.1-SNAPSHOT.jar
+
+/opt/spark-1.6.2/bin/spark-shell --packages JMailloH:kNN_IS:3.0, sramirez:spark-infotheoretic-feature-selection:1.3.1, sramirez:spark-MDLP-discretization:1.2.1
+
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+import org.apache.spark.rdd._
+import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.mllib.regression.LabeledPoint
+import org.apache.spark.mllib.evaluation.MulticlassMetrics
+import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
+import org.apache.spark.mllib.classification.kNN_IS.kNN_IS
+import utils.keel.KeelParser
+import scala.collection.mutable.ListBuffer
+
+val converter = new KeelParser(sc, "hdfs://hadoop-master/user/spark/datasets/ECBDL14_mbd/ecbdl14.header")
+val train = sc.textFile("hdfs://hadoop-master/user/spark/datasets/ECBDL14_mbd/ecbdl14tra.data", 6).map(line => converter.parserToLabeledPoint(line)).coalesce(6).cache()
+train.count()
+val test = sc.textFile("hdfs://hadoop-master/user/spark/datasets/ECBDL14_mbd/ecbdl14tst.data", 6).map(line => converter.parserToLabeledPoint(line)).cache()
+test.count()
+
+
+
+ESTA MAL
+
+import org.apache.spark.mllib.tree.RandomForest
+import org.apache.spark.mllib.tree.model.RandomForestModel
+import org.apache.spark.mllib.util.MLUtils
+val numClasses = 2
+val categoricalFeaturesInfo = Map[Int, Int]()
+val numTrees = 10 // Use more in practice.
+val featureSubsetStrategy = "auto" // Let the algorithm choose.
+val impurity = "gini"
+val maxDepth = 4
+val maxBins = 32
+val model = RandomForest.trainClassifier(train, numClasses, categoricalFeaturesInfo, 
+numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins) val predsAndLabels = test.map { point => 
+val prediction = model.predict(point.features) 
+(prediction, point.label)
+}
+val testErr = predsAndLabels.filter(r => r._1 != r._2).count.toDouble / test.count()
+println("Test Error = " + testErr)
+println("Learned model:\n" + model.toebugString)
+
+
+
+ESTA MAL
+
+import org.apache.spark.mllib.classification.{NaiveBayes, NaiveBayesModel}
+import org.apache.spark.mllib.linalg.Vectors
+val model = NaiveBayes.train(train, lambda = 1.0, modelType = "multinomial")
+val predsAndLabels = test.map { point => val prediction = model.predict(point.features) (prediction, point.label)}
+val testErr = predsAndLabels.filter(r => r._1 != r._2).count.toDouble / test.count()
+println("Test Error = " + testErr)
+
+
+
+
+
+import org.apache.spark.mllib.evaluation._
+val metrics = new MulticlassMetrics(predsAndLabels)
+metrics.precision
+metrics.confusionMatrix
+val binaryMetrics = new BinaryClassificationMetrics(predsAndLabels)
+binaryMetrics.areaUnderROC
+
+
+
+
+
+importorg.apache.spark.mllib.feature.MDLPDiscretizer
+valcategoricalFeat:Option[Seq[Int]]=None
+ valnBins=15
+ valmaxByPart=10000
+ println("***Discretizationmethod:Fayyaddiscretizer(MDLP)")
+ println("***Numberofbins:"+nBins)
+ val discretizer = MDLPDiscretizer.train(train, categoricalFeat, nBins, maxByPart)
+ val discrete = train.map(i => LabeledPoint(i.label, discretizer.transform(i.features))).cache()
+ discrete.count()
+ discrete.first()
+ val discreteTest = test.map(i => LabeledPoint(i.label, discretizer.transform(i.features))).cache()
+ discreteTest.count()
+
+
+
+
+
+
+
