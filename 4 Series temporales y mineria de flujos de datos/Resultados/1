@@ -1,0 +1,175 @@
+
+
+El valor de la semilla es:  1
+
+Primero HoeffdingTree: 
+classified instances = 1.000.000
+classifications correct (percent) = 84,509
+Kappa Statistic (percent) = 76,765
+Kappa Temporal Statistic (percent) = 76,774
+Kappa M Statistic (percent) = 76,702
+model training instances = 1.000.000
+model serialized size (bytes) = 1.961.760
+tree size (nodes) = 319
+tree size (leaves) = 160
+active learning leaves = 160
+tree depth = 11
+active leaf byte size estimate = 12.126,55
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1,011
+
+Ahora HoeffdingAdaptativeTree
+classified instances = 1.000.000
+classifications correct (percent) = 84,521
+Kappa Statistic (percent) = 76,783
+Kappa Temporal Statistic (percent) = 76,792
+Kappa M Statistic (percent) = 76,721
+model training instances = 1.000.000
+model serialized size (bytes) = 3.361.936
+tree size (nodes) = 439
+tree size (leaves) = 220
+active learning leaves = 220
+tree depth = 14
+active leaf byte size estimate = 0.0
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1
+
+
+El valor de la semilla es:  2
+
+Primero HoeffdingTree: 
+classified instances = 1.000.000
+classifications correct (percent) = 84,512
+Kappa Statistic (percent) = 76,77
+Kappa Temporal Statistic (percent) = 76,778
+Kappa M Statistic (percent) = 76,707
+model training instances = 1.000.000
+model serialized size (bytes) = 1.910.496
+tree size (nodes) = 309
+tree size (leaves) = 155
+active learning leaves = 155
+tree depth = 12
+active leaf byte size estimate = 12.191,123
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1,011
+
+Ahora HoeffdingAdaptativeTree
+classified instances = 1.000.000
+classifications correct (percent) = 84,474
+Kappa Statistic (percent) = 76,712
+Kappa Temporal Statistic (percent) = 76,721
+Kappa M Statistic (percent) = 76,65
+model training instances = 1.000.000
+model serialized size (bytes) = 3.450.008
+tree size (nodes) = 447
+tree size (leaves) = 217
+active learning leaves = 217
+tree depth = 15
+active leaf byte size estimate = 0.0
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1
+
+
+El valor de la semilla es:  3
+
+Primero HoeffdingTree: 
+classified instances = 1.000.000
+classifications correct (percent) = 84,59
+Kappa Statistic (percent) = 76,887
+Kappa Temporal Statistic (percent) = 76,895
+Kappa M Statistic (percent) = 76,825
+model training instances = 1.000.000
+model serialized size (bytes) = 1.961.096
+tree size (nodes) = 319
+tree size (leaves) = 160
+active learning leaves = 160
+tree depth = 12
+active leaf byte size estimate = 12.122,45
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1,011
+
+Ahora HoeffdingAdaptativeTree
+classified instances = 1.000.000
+classifications correct (percent) = 84,416
+Kappa Statistic (percent) = 76,625
+Kappa Temporal Statistic (percent) = 76,634
+Kappa M Statistic (percent) = 76,562
+model training instances = 1.000.000
+model serialized size (bytes) = 3.377.880
+tree size (nodes) = 443
+tree size (leaves) = 211
+active learning leaves = 211
+tree depth = 14
+active leaf byte size estimate = 0.0
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1
+
+
+El valor de la semilla es:  4
+
+Primero HoeffdingTree: 
+classified instances = 1.000.000
+classifications correct (percent) = 84,666
+Kappa Statistic (percent) = 77,001
+Kappa Temporal Statistic (percent) = 77,009
+Kappa M Statistic (percent) = 76,939
+model training instances = 1.000.000
+model serialized size (bytes) = 1.855.120
+tree size (nodes) = 301
+tree size (leaves) = 151
+active learning leaves = 151
+tree depth = 12
+active leaf byte size estimate = 12.150,464
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1,011
+
+Ahora HoeffdingAdaptativeTree
+classified instances = 1.000.000
+classifications correct (percent) = 84,465
+Kappa Statistic (percent) = 76,699
+Kappa Temporal Statistic (percent) = 76,707
+Kappa M Statistic (percent) = 76,636
+model training instances = 1.000.000
+model serialized size (bytes) = 2.838.816
+tree size (nodes) = 395
+tree size (leaves) = 182
+active learning leaves = 182
+tree depth = 15
+active leaf byte size estimate = 0.0
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1
+
+
+El valor de la semilla es:  5
+
+Primero HoeffdingTree: 
+classified instances = 1.000.000
+classifications correct (percent) = 84,481
+Kappa Statistic (percent) = 76,723
+Kappa Temporal Statistic (percent) = 76,731
+Kappa M Statistic (percent) = 76,66
+model training instances = 1.000.000
+model serialized size (bytes) = 2.010.320
+tree size (nodes) = 327
+tree size (leaves) = 164
+active learning leaves = 164
+tree depth = 13
+active leaf byte size estimate = 12.123,415
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1,011
+
+Ahora HoeffdingAdaptativeTree
+classified instances = 1.000.000
+classifications correct (percent) = 84,262
+Kappa Statistic (percent) = 76,395
+Kappa Temporal Statistic (percent) = 76,403
+Kappa M Statistic (percent) = 76,331
+model training instances = 1.000.000
+model serialized size (bytes) = 3.389.168
+tree size (nodes) = 460
+tree size (leaves) = 225
+active learning leaves = 225
+tree depth = 14
+active leaf byte size estimate = 0.0
+inactive leaf byte size estimate = 0.0
+byte size estimate overhead = 1
